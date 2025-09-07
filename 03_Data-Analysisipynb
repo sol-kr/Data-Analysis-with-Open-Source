@@ -1,0 +1,643 @@
+{
+  "cells": [
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "view-in-github",
+        "colab_type": "text"
+      },
+      "source": [
+        "<a href=\"https://colab.research.google.com/github/sol-kr/Data-Analysis-with-Open-Source/blob/main/03_Data-Analysisipynb\" target=\"_parent\"><img src=\"https://colab.research.google.com/assets/colab-badge.svg\" alt=\"Open In Colab\"/></a>"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "DkPKaAsoRq5Q"
+      },
+      "source": [
+        "\n",
+        "\n",
+        "# 오픈소스 기반 데이터 분석 3강 - 데이터 분석을 위한 파이썬 2\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "-I7BVVlnRrB0"
+      },
+      "source": [
+        "## 3-1 언패킹"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 12,
+      "metadata": {
+        "id": "2Y2HEiaiRwAI",
+        "outputId": "e01c83c5-d4de-413f-cdd3-1f8df7c774de",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "x좌표: 10, y좌표: 20\n",
+            "빨강: 255, 초록: 128, 파랑: 0\n",
+            "첫 번째 문자: A, 두 번째 문자: B, 세 번째 문자: C\n"
+          ]
+        }
+      ],
+      "source": [
+        "coordinates = (10, 20)\n",
+        "\n",
+        "# 튜플 언패킹\n",
+        "x, y = coordinates\n",
+        "print(f'x좌표: {x}, y좌표: {y}')\n",
+        "\n",
+        "rgb = [255, 128, 0]\n",
+        "# 리스트 언패킹\n",
+        "red, green, blue = rgb\n",
+        "print(f'빨강: {red}, 초록: {green}, 파랑: {blue}')\n",
+        "\n",
+        "word = 'ABC'\n",
+        "# 문자열 언패킹\n",
+        "first, second, third = word\n",
+        "print(f'첫 번째 문자: {first}, 두 번째 문자: {second}, 세 번째 문자: {third}')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 13,
+      "metadata": {
+        "id": "IO8bsKekR0W_",
+        "outputId": "2e3dc3a3-8ce6-4d57-b706-c4ec75d44962",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "최솟값: 5, 최댓값: 32, 평균: 15.57\n"
+          ]
+        }
+      ],
+      "source": [
+        "def get_dataset_stats(values):\n",
+        "  return min(values), max(values), sum(values) / len(values)\n",
+        "\n",
+        "data = [12, 8, 21, 17, 5, 32, 14]\n",
+        "\n",
+        "# 함수값 return 언패킹\n",
+        "minimum, maximum, average = get_dataset_stats(data)\n",
+        "print(f'최솟값: {minimum}, 최댓값: {maximum}, 평균: {average:.2f}')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 14,
+      "metadata": {
+        "id": "60qOf7uxVdAg",
+        "outputId": "fe4471ee-01ae-450d-d9dc-c11ec714f35c",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "김철수의 평균 점수: 85.0\n",
+            "이영희의 평균 점수: 91.7\n",
+            "박지민의 평균 점수: 82.7\n"
+          ]
+        }
+      ],
+      "source": [
+        "student_scores = [\n",
+        "    ('김철수', 85, 92, 78),\n",
+        "    ('이영희', 92, 88, 95),\n",
+        "    ('박지민', 75, 83, 90)\n",
+        "]\n",
+        "\n",
+        "# 반복문에서 언패킹 사용\n",
+        "for name, database, python, cloud in student_scores:\n",
+        "  average = (database + python + cloud) / 3\n",
+        "  print(f'{name}의 평균 점수: {average:.1f}')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 2,
+      "metadata": {
+        "id": "JpmgdsW9V0CY",
+        "outputId": "7457ae57-109d-4bc7-8d58-c72613e4e9ac",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "1월 판매액: 1200\n",
+            "2월 판매액: 1350\n",
+            "나머지 월 판매액: [1420, 1500, 1300, 1580, 1620, 1700, 1800, 1850, 1900, 2000]\n",
+            "첫 달(1월) 판매액: 1200\n",
+            "마지막 달(12월) 판매액: 2000\n",
+            "중간 달(2~11월)의 판매액: [1350, 1420, 1500, 1300, 1580, 1620, 1700, 1800, 1850, 1900]\n"
+          ]
+        }
+      ],
+      "source": [
+        "monthly_sales = [1200, 1350, 1420, 1500, 1300, 1580, 1620, 1700, 1800, 1850, 1900, 2000]\n",
+        "\n",
+        "# 1월, 2월 및 나머지 월 매출액\n",
+        "first, second, *remaining = monthly_sales\n",
+        "print(f'1월 판매액: {first}')\n",
+        "print(f'2월 판매액: {second}')\n",
+        "print(f'나머지 월 판매액: {remaining}')\n",
+        "\n",
+        "# 1월, 12월 및 나머지 월 매출액\n",
+        "first, *middle, last = monthly_sales\n",
+        "print(f'첫 달(1월) 판매액: {first}')\n",
+        "print(f'마지막 달(12월) 판매액: {last}')\n",
+        "print(f'중간 달(2~11월)의 판매액: {middle}')"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "RLfPaa1ZiqIC"
+      },
+      "source": [
+        "## 3-5 언더스코어"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 15,
+      "metadata": {
+        "id": "cRC8x3_iW0im",
+        "outputId": "45efb81f-8ea4-4293-cc82-4c1a32d21463",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "김철수의 성적: 3.8\n",
+            "이영희의 성적: 4.2\n",
+            "박민수의 성적: 3.5\n"
+          ]
+        }
+      ],
+      "source": [
+        "students = [\n",
+        "    (20251234, '김철수', '컴퓨터과학', 2, 3.8),\n",
+        "    (20265678, '이영희', '생활과학부', 3, 4.2),\n",
+        "    (20243456, '박민수', '사회복지학과', 1, 3.5)\n",
+        "]\n",
+        "\n",
+        "# 이름 및 성적 만 출력\n",
+        "for _, name, _, _, grade in students:\n",
+        "    print(f'{name}의 성적: {grade}')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 16,
+      "metadata": {
+        "id": "oYTUmCiXzIvV",
+        "outputId": "2098bcd7-31a3-450b-bb12-9e0fe8248fe0",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "20\n"
+          ]
+        }
+      ],
+      "source": [
+        "def get_coordinates( ):\n",
+        "    return (10, 20, 30)\n",
+        "\n",
+        "# 함수 return 값 언더스코어 사용\n",
+        "_, y, _ = get_coordinates()\n",
+        "\n",
+        "print(y)"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "bkA3HL5QzIvV"
+      },
+      "source": [
+        "## 3-2 예외 처리"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 17,
+      "metadata": {
+        "id": "IgUsqEAgzIvV",
+        "outputId": "0651bfe5-6497-4edb-cf85-1c4118c46e30",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "정수를 입력하세요: 5\n",
+            "결과: 2.0\n"
+          ]
+        }
+      ],
+      "source": [
+        "number = int(input('정수를 입력하세요: '))\n",
+        "result = 10 / number\n",
+        "print(f'결과: {result}')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 22,
+      "metadata": {
+        "id": "sGaFzT-WzdQF",
+        "outputId": "a707c2a0-eed5-45fa-c440-7b1cb9a0ae56",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "정수를 입력하세요: 0\n",
+            "0으로 나눌 수 없습니다.\n"
+          ]
+        }
+      ],
+      "source": [
+        "number = int(input('정수를 입력하세요: '))\n",
+        "\n",
+        "# try 문\n",
+        "try:\n",
+        "    result = 10 / number\n",
+        "    print(f'결과: {result}')\n",
+        "\n",
+        "# except 문\n",
+        "except ZeroDivisionError:\n",
+        "    print('0으로 나눌 수 없습니다.')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 31,
+      "metadata": {
+        "id": "aJycqfJvzdGc",
+        "outputId": "9f09e050-7720-40d4-9614-d84dfd7425b9",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "숫자를 입력하세요: 0\n",
+            "0으로 나눌 수 없습니다.\n",
+            "결과: 1.0\n"
+          ]
+        }
+      ],
+      "source": [
+        "# try 문\n",
+        "try:\n",
+        "    number = int(input('숫자를 입력하세요: '))\n",
+        "    result = 10 / number\n",
+        "\n",
+        "# except 문 1\n",
+        "except ValueError:\n",
+        "    print('유효한 숫자를 입력해야 합니다.')\n",
+        "\n",
+        "# except 문 2\n",
+        "except ZeroDivisionError:\n",
+        "    print('0으로 나눌 수 없습니다.')\n",
+        "\n",
+        "print(f'결과: {result}')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 52,
+      "metadata": {
+        "id": "lPcWWLiJ0ws4",
+        "outputId": "18f40788-e9b3-46da-a3c5-a3f450ba430f",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "파일을 찾을 수 없습니다.\n",
+            "파일 작업 종료.\n"
+          ]
+        }
+      ],
+      "source": [
+        "# try 문\n",
+        "try:\n",
+        "    with open('data.csv', 'r') as file:\n",
+        "        content = file.read( )\n",
+        "        print(content)\n",
+        "\n",
+        "# except 문\n",
+        "except FileNotFoundError:\n",
+        "    print('파일을 찾을 수 없습니다.')\n",
+        "\n",
+        "# fianlly 블럭\n",
+        "finally:\n",
+        "    print('파일 작업 종료.')\n"
+      ]
+    },
+    {
+      "cell_type": "markdown",
+      "metadata": {
+        "id": "l0YVL4ArzIvV"
+      },
+      "source": [
+        "## 3-3 함수형 프로그래밍"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 4,
+      "metadata": {
+        "id": "Syg5knhezIvV",
+        "outputId": "acca71fc-bef6-4c6a-a235-bce1ec4dd5c3",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "{'이지혜': 3300000.0000000005, '구민준': 5500000.0, '방서연': 4510000.0}\n"
+          ]
+        }
+      ],
+      "source": [
+        "employees = {\n",
+        "    '이지혜': 3000000,\n",
+        "    '구민준': 5000000,\n",
+        "    '방서연': 4100000\n",
+        "}\n",
+        "\n",
+        "# 함수 정의: salary * 1.1\n",
+        "adjust_salary = lambda salary: salary * 1.1\n",
+        "# 급여 인상\n",
+        "updated_salaries = {name: adjust_salary(salary) for name, salary in employees.items()}\n",
+        "print(updated_salaries)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 5,
+      "metadata": {
+        "id": "KM0psbppzIvV",
+        "outputId": "adbc257d-3e5c-441c-a034-96f726123dc1",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "섭씨 온도 데이터: [25.6, 27.8, 30.5, 22.3, 28.9, 31.2, 24.7]\n",
+            "화씨 온도로 변환: [78.08, 82.04, 86.9, 72.14, 84.02, 88.16, 76.46]\n"
+          ]
+        }
+      ],
+      "source": [
+        "temperature_celsius = [25.6, 27.8, 30.5, 22.3, 28.9, 31.2, 24.7]\n",
+        "\n",
+        "# 함수 정의: 섭씨 -> 화씨\n",
+        "cel_to_fah = lambda c: (c * 9/5) + 32\n",
+        "# 온도 변환\n",
+        "temperature_fahrenheit = list(map(cel_to_fah, temperature_celsius))\n",
+        "\n",
+        "print('섭씨 온도 데이터:', temperature_celsius)\n",
+        "print('화씨 온도로 변환:', temperature_fahrenheit)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 44,
+      "metadata": {
+        "id": "rG3nqqfDzIvW",
+        "outputId": "5ed574ff-6493-47a5-fec5-2d8035f5414b",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "['PYTHON', 'DATA', 'ANALYSIS']\n"
+          ]
+        }
+      ],
+      "source": [
+        "words = ['python', 'data', 'analysis']\n",
+        "\n",
+        "# 함수 정의 및 대문자화\n",
+        "uppercase_words = list(map(lambda word: word.upper(), words))\n",
+        "\n",
+        "print(uppercase_words)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 47,
+      "metadata": {
+        "id": "9tFlZojhzIvW",
+        "outputId": "a1bf3f76-1523-4406-e86f-9e261909cb95",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "\n",
+            "급여 인상 후:\n",
+            "김지원: 4,070,000원\n",
+            "박민준: 7,700,000원\n",
+            "이서연: 4,840,000원\n",
+            "정현우: 3,850,000원\n"
+          ]
+        }
+      ],
+      "source": [
+        "employees = [\n",
+        "    {'name': '김지원', 'salary': 3700000},\n",
+        "    {'name': '박민준', 'salary': 7000000},\n",
+        "    {'name': '이서연', 'salary': 4400000},\n",
+        "    {'name': '정현우', 'salary': 3500000}\n",
+        "]\n",
+        "\n",
+        "# salary * 1.1\n",
+        "updated_employees = list(map(lambda emp: {'name': emp['name'], 'salary': emp['salary'] * 1.1}, employees))\n",
+        "\n",
+        "print('\\n급여 인상 후:')\n",
+        "\n",
+        "for emp in updated_employees:\n",
+        "    print(f'{emp['name']}: {int(emp['salary']):,}원')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 48,
+      "metadata": {
+        "id": "WHQxVdiuzIvW",
+        "outputId": "e0e23a14-a97f-4e7f-e92b-fed2cfb78e2b",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "[10, 20, 30]\n"
+          ]
+        }
+      ],
+      "source": [
+        "numbers = [10, 15, 20, 25, 30]\n",
+        "\n",
+        "# 짝수 필터링\n",
+        "even_numbers = list(filter(lambda x: x %2 == 0, numbers))\n",
+        "\n",
+        "print(even_numbers)"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 6,
+      "metadata": {
+        "id": "1E-RQnBfzIvW",
+        "outputId": "a9849fb3-9fb9-4c7f-a5b6-274d2a46add6",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "이름: 김지원, 점수: 85\n",
+            "이름: 박서연, 점수: 90\n",
+            "이름: 최예은, 점수: 78\n"
+          ]
+        }
+      ],
+      "source": [
+        "osda_students = [\n",
+        "    {'name': '김지원', 'score': 85},\n",
+        "    {'name': '이민준', 'score': 65},\n",
+        "    {'name': '박서연', 'score': 90},\n",
+        "    {'name': '정현우', 'score': 55},\n",
+        "    {'name': '최예은', 'score': 78}\n",
+        "]\n",
+        "\n",
+        "# 70점 이상 학생 목록 생성\n",
+        "passed_students = list(filter(lambda student: student['score'] >= 70, osda_students))\n",
+        "\n",
+        "for student in passed_students:\n",
+        "    print(f'이름: {student[\"name\"]}, 점수: {student[\"score\"]}')"
+      ]
+    },
+    {
+      "cell_type": "code",
+      "execution_count": 49,
+      "metadata": {
+        "id": "1sVaIuwFzIvW",
+        "outputId": "ebf20bd6-a3be-470e-b411-ba86f8fe2585",
+        "colab": {
+          "base_uri": "https://localhost:8080/"
+        }
+      },
+      "outputs": [
+        {
+          "output_type": "stream",
+          "name": "stdout",
+          "text": [
+            "9\n"
+          ]
+        }
+      ],
+      "source": [
+        "from functools import reduce\n",
+        "\n",
+        "numbers = [3, 7, 2, 9, 5]\n",
+        "\n",
+        "# 최대값 생성\n",
+        "max_value = reduce(lambda x, y: x if x > y else y, numbers)\n",
+        "\n",
+        "print(max_value)"
+      ]
+    }
+  ],
+  "metadata": {
+    "colab": {
+      "provenance": [],
+      "include_colab_link": true
+    },
+    "kernelspec": {
+      "display_name": "Python 3",
+      "name": "python3"
+    },
+    "language_info": {
+      "name": "python"
+    }
+  },
+  "nbformat": 4,
+  "nbformat_minor": 0
+}
